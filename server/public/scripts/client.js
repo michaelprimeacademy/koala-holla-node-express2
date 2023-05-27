@@ -92,12 +92,12 @@ function saveKoala() {
 
 // filter koalas array for non-rtt koalas
 
-function makeReadyToTransfer(index) {
+function makeReadyToTransfer(id, event) {
   let updatedKoala = {
     ready_to_transfer: "Y",
   };
 
-  fetch(`/koalas/${index}`, {
+  fetch(`/koalas/${id}`, {
     method: "PUT",
     body: JSON.stringify(updatedKoala),
     headers: {

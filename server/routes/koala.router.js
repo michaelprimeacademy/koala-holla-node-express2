@@ -69,11 +69,22 @@ koalaRouter.delete("/:id", (req, res) => {
 // set the delete id = id from the object
 
 // // PUT
-// koalaRouter.put("/:koalaIndex", (req, res) => {
-//   let koalaIndex = req.params.koalaIndex;
-//   koalas[koalaIndex].ready_to_transfer = req.body.ready_to_transfer;
-//   res.sendStatus(204);
-// });
+koalaRouter.put("/:id", (req, res) => {
+  let reqId = req.params.id;
+  console.log("Ready to transfer for id", req.params.id);
+  let sqlText = "UPDATE koalas SET ready_to_transfer = Y";
+  // let sqlText = 'INSERT INTO "koalas" ("ready_to_transfer") VALUES (Y);';
+  pool
+    .query(sqlText, [reqId])
+    .then((result) => {
+      console.log("Koala ready to transfer updated");
+      res.status(200).send();
+    })
+    .catch((error) => {
+      console.log(`Error making database query ${sqlText}`, error);
+      res.sendStatus(500); // Good server always responds
+    });
+});
 
 // // DELETE
 // koalaRouter.delete('/:koalaIndex', (req, res) => {
