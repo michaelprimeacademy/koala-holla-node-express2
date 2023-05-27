@@ -72,7 +72,7 @@ koalaRouter.delete("/:id", (req, res) => {
 koalaRouter.put("/:id", (req, res) => {
   let reqId = req.params.id;
   console.log("Ready to transfer for id", req.params.id);
-  let sqlText = "UPDATE koalas SET ready_to_transfer = Y";
+  let sqlText = "UPDATE koalas SET ready_to_transfer = 'Y' WHERE id = $1";
   // let sqlText = 'INSERT INTO "koalas" ("ready_to_transfer") VALUES (Y);';
   pool
     .query(sqlText, [reqId])
