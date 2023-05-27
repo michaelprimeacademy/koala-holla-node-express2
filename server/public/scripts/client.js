@@ -9,7 +9,7 @@ function getKoalas() {
     .then((response) => response.json())
     .then((koalas) => {
       let addKoala = document.querySelector("#viewKoalas");
-      console.log('updating the DOM');
+      console.log("updating the DOM");
 
       let i = 0;
       for (let koala of koalas) {
@@ -22,20 +22,20 @@ function getKoalas() {
             <td>${koala.ready_to_transfer}</td>
             <td>${koala.notes}</td>
             <td></td>
-            <td><button onclick="delKoala(${i})">Delete</button></td>
+            <td><button onclick="delKoala(${koala.id})">Delete</button></td>
           </tr>      
         `;
           i++;
         } else {
-            addKoala.innerHTML += `
+          addKoala.innerHTML += `
             <tr>
               <td>${koala.name}</td>
               <td>${koala.age}</td>
               <td>${koala.gender}</td>
               <td>${koala.ready_to_transfer}</td>
               <td>${koala.notes}</td>
-              <td><button id="markReady" onclick="makeReadyToTransfer(${i})">Mark Ready</button></td>
-              <td><button onclick="delKoala(${i})">Delete</button></td>
+              <td><button id="markReady" onclick="makeReadyToTransfer(${koala.id})">Mark Ready</button></td>
+              <td><button onclick="delKoala(${koala.id})">Delete</button></td>
             </tr>      
             `;
           i++;
@@ -114,12 +114,17 @@ function makeReadyToTransfer(index) {
     });
 }
 
-function delKoala(index, event) {
-  fetch(`/koalas/${index}`, {method: 'DELETE'})
-  .then(deletedResponse => deletedResponse.json())
-  .then(deletedKoala => {
-    getKoalas();
-  });
+function delKoala(id, event) {
+  fetch(`/koalas/${id}`, { method: "DELETE" })
+    //.then((deletedResponse) => deletedResponse.json())
+    .then((deletedKoala) => {
+      console.log("in delete function");
+      getKoalas();
+    })
+    .catch((error) => {
+      console.log("Error: ", error);
+      alert("Error!");
+    });
 }
 
 // page load GET
